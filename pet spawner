@@ -1,0 +1,139 @@
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "ShadowScriptingPetSpawner"
+gui.ResetOnSpawn = false
+
+
+local loadingFrame = Instance.new("Frame", gui)
+loadingFrame.Size = UDim2.new(1, 0, 1, 0)
+loadingFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 20)
+
+local loadingLabel = Instance.new("TextLabel", loadingFrame)
+loadingLabel.Text = "⚙️ Loading Shadow Scripting Pet Spawner..."
+loadingLabel.Size = UDim2.new(1, 0, 0, 100)
+loadingLabel.Position = UDim2.new(0, 0, 0.5, -50)
+loadingLabel.TextScaled = true
+loadingLabel.Font = Enum.Font.FredokaOne
+loadingLabel.TextColor3 = Color3.fromRGB(180, 80, 255)
+loadingLabel.BackgroundTransparency = 1
+
+
+local mainFrame = Instance.new("Frame", gui)
+mainFrame.Visible = false
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true 
+
+
+local corner = Instance.new("UICorner", mainFrame)
+corner.CornerRadius = UDim.new(0, 12)
+
+
+local title = Instance.new("TextLabel", mainFrame)
+title.Text = "Shadow Scripting Pet Spawner"
+title.Size = UDim2.new(1, 0, 0, 50)
+title.TextScaled = true
+title.Font = Enum.Font.FredokaOne
+title.TextColor3 = Color3.fromRGB(200, 100, 255)
+title.BackgroundTransparency = 1
+
+
+local dropdown = Instance.new("TextButton", mainFrame)
+dropdown.Text = "Select Pet"
+dropdown.Position = UDim2.new(0.1, 0, 0.3, 0)
+dropdown.Size = UDim2.new(0.8, 0, 0, 40)
+dropdown.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+dropdown.Font = Enum.Font.GothamBold
+dropdown.TextScaled = true
+
+local dropdownCorner = Instance.new("UICorner", dropdown)
+dropdownCorner.CornerRadius = UDim.new(0, 8)
+
+
+local optionsFrame = Instance.new("Frame", mainFrame)
+optionsFrame.Position = UDim2.new(0.1, 0, 0.45, 0)
+optionsFrame.Size = UDim2.new(0.8, 0, 0, 120)
+optionsFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 40)
+optionsFrame.Visible = false
+optionsFrame.ClipsDescendants = true
+
+local optionsCorner = Instance.new("UICorner", optionsFrame)
+optionsCorner.CornerRadius = UDim.new(0, 8)
+
+
+local spawnButton = Instance.new("TextButton", mainFrame)
+spawnButton.Text = "Spawn"
+spawnButton.Position = UDim2.new(0.1, 0, 0.85, 0)
+spawnButton.Size = UDim2.new(0.8, 0, 0, 40)
+spawnButton.BackgroundColor3 = Color3.fromRGB(80, 20, 120)
+spawnButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+spawnButton.Font = Enum.Font.GothamBold
+spawnButton.TextScaled = true
+
+local spawnCorner = Instance.new("UICorner", spawnButton)
+spawnCorner.CornerRadius = UDim.new(0, 8)
+
+
+local statusLabel = Instance.new("TextLabel", mainFrame)
+statusLabel.Text = ""
+statusLabel.Position = UDim2.new(0.1, 0, 0.7, 0)
+statusLabel.Size = UDim2.new(0.8, 0, 0, 30)
+statusLabel.TextColor3 = Color3.fromRGB(200, 100, 255)
+statusLabel.TextScaled = true
+statusLabel.BackgroundTransparency = 1
+statusLabel.Font = Enum.Font.GothamBold
+
+
+local petList = {"Shadow_Dragon", "Frost_Dragon", "Bat_Dragon", "Evil_Unicorn", "Neon_Ghost_Bunny"}
+local selectedPet = nil
+
+for i, petName in ipairs(petList) do
+	local petBtn = Instance.new("TextButton", optionsFrame)
+	petBtn.Size = UDim2.new(1, 0, 0, 24)
+	petBtn.Position = UDim2.new(0, 0, 0, (i - 1) * 24)
+	petBtn.Text = petName
+	petBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+	petBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	petBtn.Font = Enum.Font.GothamBold
+	petBtn.TextSize = 14
+	
+	petBtn.MouseButton1Click:Connect(function()
+		selectedPet = petName
+		dropdown.Text = petName
+		optionsFrame.Visible = false
+	end)
+end
+
+
+dropdown.MouseButton1Click:Connect(function()
+	optionsFrame.Visible = not optionsFrame.Visible
+end)
+
+
+spawnButton.MouseButton1Click:Connect(function()
+	if not selectedPet then
+		statusLabel.Text = "⚠️ Please select a pet!"
+		return
+	end
+
+	statusLabel.Text = "Loading..."
+	spawnButton.Text = "Loading..."
+	spawnButton.BackgroundColor3 = Color3.fromRGB(50, 0, 80)
+
+	task.wait(2)
+
+	statusLabel.Text = "✨ " .. selectedPet .. " has been spawned! (Fake ofc 😎)"
+	spawnButton.Text = "Spawn"
+	spawnButton.BackgroundColor3 = Color3.fromRGB(80, 20, 120)
+end)
+
+
+loadingFrame.Visible = true
+mainFrame.Visible = false
+task.wait(3)
+loadingFrame.Visible = false
+mainFrame.Visible = true
