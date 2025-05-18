@@ -120,13 +120,13 @@ spawnButton.MouseButton1Click:Connect(function()
 		return
 	end
 
-	statusLabel.Text = "Loading..."
-	spawnButton.Text = "Loading..."
+	statusLabel.Text = "spawning..."
+	spawnButton.Text = "spawning..."
 	spawnButton.BackgroundColor3 = Color3.fromRGB(50, 0, 80)
 
 	task.wait(2)
 
-	statusLabel.Text = "✨ " .. selectedPet .. " has been spawned! (Fake ofc 😎)"
+	statusLabel.Text = "✨ " .. selectedPet .. " is spawning wait"
 	spawnButton.Text = "Spawn"
 	spawnButton.BackgroundColor3 = Color3.fromRGB(80, 20, 120)
 end)
